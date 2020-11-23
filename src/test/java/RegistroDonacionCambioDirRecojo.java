@@ -1,10 +1,8 @@
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -12,7 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class RegistroDonacionTest {
+public class RegistroDonacionCambioDirRecojo {
 
     static AndroidDriver<MobileElement> driver;
 
@@ -66,13 +64,54 @@ public class RegistroDonacionTest {
         MobileElement imageNuevaDonacion = driver.findElementByXPath("\t\n" +
                 "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.drawerlayout.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.FrameLayout/androidx.recyclerview.widget.RecyclerView/android.widget.RelativeLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ImageView");
         imageNuevaDonacion.click();
+        Thread.sleep(1000);
+
+        // Click en cambio de direccion
+        MobileElement imgBtnDireccion = driver.findElement(By.id("com.upc.movil:id/ibDireccionDonacion"));
+        imgBtnDireccion.click();
+        Thread.sleep(5000);
+
+        // Aceptar permiso de maps
+        MobileElement btnAceptarPermiso = driver.findElement(By.id("com.android.packageinstaller:id/permission_allow_button"));
+        btnAceptarPermiso.click();
+        Thread.sleep(1000);
+
+        // Buscar Tottus Santa Anita
+        TouchAction touchAction = new TouchAction(driver).tap(PointOption.point(210,190)).release();
+        touchAction.perform();
+        Thread.sleep(500);
+
+        // Ingresando nueva direccion
+        MobileElement txtBusqueda = driver.findElement(By.id("com.upc.movil:id/places_autocomplete_search_bar"));
+        txtBusqueda.click();
+        txtBusqueda.sendKeys("tottus santa anita");
+        txtBusqueda.click();
+        Thread.sleep(500);
+
+        // Seleccionar direccion
+        touchAction = new TouchAction(driver).tap(PointOption.point(90,360)).release();
+        touchAction.perform();
+        Thread.sleep(5000);
+
+        // Confirmar direccion
+        touchAction = new TouchAction(driver).tap(PointOption.point(740,1350)).release();
+        touchAction.perform();
+        Thread.sleep(2000);
+
+        // Mover de la ubicacion actual, hacia una nueva ubicacion
+        /*TouchAction touchAction = new TouchAction(driver)
+                .press(PointOption.point(540,530))
+                .moveTo(PointOption.point(540,530));
+                //tap(PointOption.point(540,530)).release();
+        touchAction.perform();
+        Thread.sleep(2000);*/
 
         // Ingresando producto
         MobileElement txtProducto = driver.findElement(By.id("com.upc.movil:id/etProducto"));
         txtProducto.click();
-        txtProducto.sendKeys("arro");
+        txtProducto.sendKeys("leche");
         Thread.sleep(2000);
-        TouchAction touchAction = new TouchAction(driver).tap(PointOption.point(340,250)).release();
+        touchAction = new TouchAction(driver).tap(PointOption.point(340,250)).release();
         touchAction.perform();
         Thread.sleep(2000);
 
@@ -80,28 +119,35 @@ public class RegistroDonacionTest {
         System.out.println("Producto seleccionado : " + txtProducto.getText());
         System.out.println("Tipo de Producto seleccionado : " + txtTipoProducto.getText());
         driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        Thread.sleep(200);
 
-        // Ingresando peso
-        MobileElement txtPeso = driver.findElement(By.id("com.upc.movil:id/etPesoProducto"));
-        txtPeso.click();
-        txtPeso.sendKeys("100");
+        // Ingresando cantidad
+        MobileElement txtCantidad = driver.findElement(By.id("com.upc.movil:id/etCantProducto"));
+        txtCantidad.click();
+        txtCantidad.sendKeys("20");
         driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        Thread.sleep(200);
 
-        // Seleccionando peso KG
+        // Seleccionando tipo Caja de 24
         MobileElement cboPeso = driver.findElementByXPath("\t\n" +
-                "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.drawerlayout.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.FrameLayout/android.view.ViewGroup/android.widget.Spinner[2]/android.widget.CheckedTextView");
+                "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.drawerlayout.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.FrameLayout/android.view.ViewGroup/android.widget.Spinner[1]/android.widget.CheckedTextView");
         cboPeso.click();
         driver.pressKey(new KeyEvent(AndroidKey.PAGE_DOWN));
         driver.pressKey(new KeyEvent(AndroidKey.PAGE_DOWN));
+        driver.pressKey(new KeyEvent(AndroidKey.PAGE_DOWN));
         driver.pressKey(new KeyEvent(AndroidKey.ENTER));
+        Thread.sleep(200);
 
         // Seleccionando fecha de vencimiento
         MobileElement txtFechaVencimiento = driver.findElement(By.id("com.upc.movil:id/etFechaVencimiento"));
         txtFechaVencimiento.click();
-        MobileElement fechaSelecElement = driver.findElementByXPath("//android.view.View[@content-desc=\"26 noviembre 2020\"]\n");
+        Thread.sleep(2000);
+        MobileElement fechaSelecElement = driver.findElementByXPath("//android.view.View[@content-desc=\"27 noviembre 2020\"]\n");
         fechaSelecElement.click();
+        Thread.sleep(200);
         MobileElement btnAceptar = driver.findElement(By.id("android:id/button1"));
         btnAceptar.click();
+        Thread.sleep(200);
 
         // Ingrsando alguna descripcion u observacion
         MobileElement txtDescDonacion = driver.findElement(By.id("com.upc.movil:id/etDescDonacion"));
