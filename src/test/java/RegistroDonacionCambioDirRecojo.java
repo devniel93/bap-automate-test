@@ -79,7 +79,7 @@ public class RegistroDonacionCambioDirRecojo {
         // Buscar Tottus Santa Anita
         TouchAction touchAction = new TouchAction(driver).tap(PointOption.point(210,190)).release();
         touchAction.perform();
-        Thread.sleep(500);
+        Thread.sleep(2000);
 
         // Ingresando nueva direccion
         MobileElement txtBusqueda = driver.findElement(By.id("com.upc.movil:id/places_autocomplete_search_bar"));
